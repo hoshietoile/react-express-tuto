@@ -1,0 +1,34 @@
+@import './../../../assets/scss/_variables.scss';
+.sidebar {
+  height: 100%;
+  padding-top: 56px;
+  background: $lightColor;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  border: 1px solid $secondaryColor;
+  &.opened {
+    min-width: 190px;
+    animation: drawerOpen 0.5s ease-out;
+  }
+  &.closed {
+    width: 46px;
+    animation: drawerClose 0.3s ease;
+  }
+}
+@keyframes drawerOpen {
+  0% {
+    max-width: 46px;
+  }
+  100% {
+    min-width: 190px;
+  }
+}
+@keyframes drawerClose {
+  0% {
+    min-width: 190px;
+  }
+  100% {
+    min-width: 46px;
+  }
+}

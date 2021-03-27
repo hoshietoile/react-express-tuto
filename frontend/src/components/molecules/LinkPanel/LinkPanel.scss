@@ -1,0 +1,27 @@
+@import './../../../assets/scss/_variables.scss';
+.link-panel__link {
+  display: inline-block;
+  width: 100%;
+  height: 42px;
+  line-height: 42px;
+  color: $dark2Color;
+  text-decoration: none;
+  &.active .link-panel {
+    // background-color: $secondaryColor;
+  }
+  text-decoration: none;
+  color: $dark3Color;
+  &:hover {
+    color: $dark1Color;
+  }
+}
+.link-panel__panel {
+  height: 42px;
+  line-height: 42px;
+  padding: 3px 0;
+  display: flex;
+  cursor: pointer;
+  img {
+    padding: 0 5px;
+  }
+}
