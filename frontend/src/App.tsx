@@ -1,17 +1,23 @@
-import React from 'react';
-import './App.scss';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import './App.scss'
 
-function App() {
+import Index from './components/pages/Index/Index'
+import Migration from './components/pages/Migration/Migration'
+import Seed from './components/pages/Seed/Seed'
+import Sql from './components/pages/Sql/Sql'
+
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header>
-        <p>header</p>
-      </header>
-      <body>
-        <p>body</p>
-      </body>
-    </div>
-  );
+    <Router>
+      <Switch>
+        <Route path="/" component={ Index } exact />
+        <Route path="/migration" component={ Migration } exact />
+        <Route path="/seed" component={ Seed } exact />
+        <Route path="/sql" component={ Sql } exact />
+      </Switch>
+    </Router>
+  )
 }
 
-export default App;
+export default App
