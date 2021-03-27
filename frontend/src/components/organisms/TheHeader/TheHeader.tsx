@@ -2,6 +2,8 @@ import React, { useMemo } from 'react'
 import './TheHeader.scss'
 // icons
 import ArrowIcon from './../../../assets/images/arrow.svg'
+// modules
+import formatClass from './../../../assets/js/modules/formatClass'
 
 export type TheHeaderProps = {
   isDrawerOpen: boolean
@@ -11,9 +13,9 @@ export type TheHeaderProps = {
 const TheHeader: React.FC<TheHeaderProps> = ({ isDrawerOpen, handleTogglerToggle }) => {
 
   const togglerClass= useMemo(():string => {
-    const baseClass = "header__toggler"
-    const isOpen = isDrawerOpen
-    return `${baseClass} ${isOpen ? 'left' : 'right'}`.trim()
+    return formatClass('header__toggler', '', () => {
+      return isDrawerOpen ? 'left' : 'right'
+    })
   }, [isDrawerOpen])
 
   return (

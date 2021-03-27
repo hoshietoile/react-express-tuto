@@ -7,6 +7,8 @@ import SeederIcon from './../../../assets/images/cards.svg'
 import SqlIcon from './../../../assets/images/text.svg'
 // molecules
 import LinkPanel from './../../molecules/LinkPanel/LinkPanel'
+// modules
+import formatClass from './../../../assets/js/modules/formatClass'
 
 export type TheSidebarProps = {
   isDrawerOpen: boolean
@@ -15,9 +17,9 @@ export type TheSidebarProps = {
 const TheSidebar: React.FC<TheSidebarProps> = ({ isDrawerOpen }) => {
   
   const drawerClass = useMemo(():string => {
-    const baseClass = "sidebar"
-    const isOpen = isDrawerOpen
-    return `${baseClass} ${isOpen ? 'opened' : 'closed'}`.trim()
+    return formatClass('sidebar', '', () => {
+      return isDrawerOpen ? 'opened' : 'closed'
+    })
   }, [isDrawerOpen])
 
   return (

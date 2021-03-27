@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import './BasePanel.scss'
+// modules
+import formatClass from './../../../assets/js/modules/formatClass'
 
 export type BasePanelProps = {
   children: React.ReactNode
@@ -7,10 +9,11 @@ export type BasePanelProps = {
 }
 
 const BasePanel: React.FC<BasePanelProps> = ({ children, appendClass }) => {
+  
   const panelClass = useMemo(() => {
-    const baseClass = "panel"
-    return `${baseClass} ${appendClass ? appendClass : ''}`.trim()
+    return formatClass('panel', appendClass)
   }, [appendClass])
+
   return (
     <div className={ panelClass }>
       { children }
