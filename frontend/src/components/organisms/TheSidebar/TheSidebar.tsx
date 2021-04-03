@@ -28,28 +28,28 @@ const TheSidebar: React.FC<TheSidebarProps> = ({ isDrawerOpen }) => {
         linkTo="/"
         linkText="Index"
         iconSrc={ IndexIcon }
-        iconSize="sm"
+        iconSize="md"
         iconAlt="index"
       />
       <LinkPanel 
         linkTo="/migration"
         linkText="Migration"
         iconSrc={ MigrationIcon }
-        iconSize="sm"
+        iconSize="md"
         iconAlt="migration"
       />
       <LinkPanel 
         linkTo="/seed"
         linkText="Seeder"
         iconSrc={ SeederIcon }
-        iconSize="sm"
+        iconSize="md"
         iconAlt="seeder"
       />
       <LinkPanel 
         linkTo="/sql"
         linkText="Sql"
         iconSrc={ SqlIcon }
-        iconSize="sm"
+        iconSize="md"
         iconAlt="sql"
       />
     </div>

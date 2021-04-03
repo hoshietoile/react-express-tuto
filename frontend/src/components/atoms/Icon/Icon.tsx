@@ -3,7 +3,7 @@ import React, { useMemo } from 'react'
 export type IconProps = {
   src: string
   size: string
-  alt: string
+  alt?: string
 }
 
 const Icon: React.FC<IconProps> = ({ src, size, alt }) => {
@@ -12,13 +12,13 @@ const Icon: React.FC<IconProps> = ({ src, size, alt }) => {
     let sizeNum = '36'
     switch (sizeIndex) {
       case 0:
-        sizeNum = '56'
-        break
-      case 1:
         sizeNum = '46'
         break
-      case 2:
+      case 1:
         sizeNum = '36'
+        break
+      case 2:
+        sizeNum = '26'
         break
       default:
         break
