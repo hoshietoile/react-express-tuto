@@ -13,16 +13,9 @@
     animation: modal-fade-in 0.3s ease;
   }
   &__close {
-    display: inline-block;
     position: absolute;
     top: -6px;
     right: -10px;
-    width: 40px;
-    height: 26px;
-    color: white;
-    background-color: $dangerColor;
-    border-radius: $borderRadius;
-    text-align: center;
   }
   &__header {
     display: flex;
@@ -78,55 +71,4 @@
 }
 .input--constraints {
   width: 40%;
-}
-
-.select {
-  position: relative;
-  .selectbox {
-    width: 100%;
-    position: absolute;
-    top: 36;
-    left: 16;
-    background-color: white;
-    z-index: 110;
-    li {
-      cursor: pointer;
-      box-sizing: border-box;
-      width: 100%;
-      padding: 8px 16px;
-      &.label {
-        font-weight: $textWeightMedium;
-        
-        &.active {
-          cursor: default;
-        }
-      }
-
-      &.default {
-        padding-left: 24px;
-        display: none;
-        &.active {
-          display: block;
-          animation: pop-fade-in 0.3s ease;
-        }
-      }
-      
-      &:not(:last-child) {
-        border-bottom: 1px solid $borderColor;
-      }
-      &:hover {
-        background-color: $cleanColor;
-      }
-    }
-  }
-}
-@keyframes pop-fade-in {
-  0% {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0px);
-    opacity: 1;
-  }
 }

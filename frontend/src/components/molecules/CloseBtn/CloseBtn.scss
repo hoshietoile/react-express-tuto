@@ -1,0 +1,10 @@
+@import './../../../assets/scss/_variables.scss';
+.close-btn {
+  display: inline-block;
+  color: white;
+  background-color: $dangerColor;
+  border-radius: $borderRadius;
+  text-align: center;
+  width: 40px;
+  height: 26px;
+}

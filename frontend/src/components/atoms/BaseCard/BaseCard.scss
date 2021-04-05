@@ -1,0 +1,10 @@
+@import './../../../assets/scss/_variables.scss';
+.card {
+  box-sizing: border-box;
+  border-radius: $borderRadius;
+  border: 1px solid $borderColor;
+  box-shadow: 1px 1px 4px 1px rgba(0, 0, 0, 0.3);
+  &.flat {
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,9 @@
+@import './../../../assets/scss/_variables.scss';
+.btn {
+  border: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}

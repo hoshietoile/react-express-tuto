@@ -1,0 +1,42 @@
+@import './../../../assets/scss/_variables.scss';
+.tab {
+  box-sizing: border-box;
+  &__header {
+    width: 100%;
+    height: 40px;
+    border-top-left-radius: $borderRadius;
+    border-top-right-radius: $borderRadius;
+    background: $primaryColor;
+    display: flex;
+    &--label {
+      color: white;
+      padding: 0 16px;
+      line-height: 40px;
+      cursor: pointer;
+      transition: all 0.3s;
+      &:first-child {
+        border-top-left-radius: $borderRadius;
+      }
+      &:last-child {
+        border-top-right-radius: $borderRadius;
+      }
+      &:hover {
+        background-color: $primaryColorDisable;
+      }
+      &.active {
+        background-color: $primaryColorDisable;
+        border-bottom: 2px solid $primaryAccentColor;
+      }
+    }
+  }
+  &__body {
+    width: 100%;
+    background: $cleanColor;
+  }
+  &__content {
+    display: flex;
+    &.column {
+      flex-direction: column;
+    }
+  }
+}

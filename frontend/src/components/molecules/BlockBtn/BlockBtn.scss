@@ -1,0 +1,13 @@
+@import './../../../assets/scss/_variables.scss';
+.btn--block {
+  border-radius: $borderRadius;
+  padding: 4px 8px;
+  font-weight: $textWeightMedium;
+}
+.btn.secondary {
+
+}
+.btn.primary {
+  background-color: $primaryColor;
+  color: white;
+}

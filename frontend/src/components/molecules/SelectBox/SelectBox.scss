@@ -1,0 +1,83 @@
+@import './../../../assets/scss/_variables.scss';
+.input {
+  padding: 4px 8px;
+  label {
+    display: flex;
+    line-height: 36px;
+    font-weight: bold;
+    span {
+      padding: 0 8px;
+      font-weight: $textWeightMedium;
+      color: $dark2Color;
+    }
+    input {
+      flex-grow: 1;
+      height: 36px;
+      box-sizing: border-box;
+      padding: 4px 8px 0 8px;
+      background-color: transparent;
+      border: none;
+      border-bottom: 1px solid $borderColor;
+      transition: all 0.3s;
+      &:focus {
+        border-bottom: 2px solid $primaryColor;
+        background-color: rgba(255, 255, 255, 0.75);
+        outline: none;
+      }
+      &.disable {
+        background-color: $disabledColor;
+      }
+    }
+  }
+}
+
+.select {
+  position: relative;
+  .selectbox {
+    width: 100%;
+    position: absolute;
+    top: 36;
+    left: 16;
+    background-color: white;
+    z-index: 110;
+    li {
+      cursor: pointer;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 8px 16px;
+      &.label {
+        font-weight: $textWeightMedium;
+        
+        &.active {
+          cursor: default;
+        }
+      }
+
+      &.default {
+        padding-left: 24px;
+        display: none;
+        &.active {
+          display: block;
+          animation: pop-fade-in 0.3s ease;
+        }
+      }
+      
+      &:not(:last-child) {
+        border-bottom: 1px solid $borderColor;
+      }
+      &:hover {
+        background-color: $cleanColor;
+      }
+    }
+  }
+}
+@keyframes pop-fade-in {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}

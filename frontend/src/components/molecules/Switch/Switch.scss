@@ -1,0 +1,52 @@
+@import './../../../assets/scss/_variables.scss';
+.switch {
+  height: 36px;
+  line-height: 36px;
+  padding: 4px 8px;
+
+  span {
+    height: 36px;
+    padding: 0 8px;
+    font-weight: $textWeightMedium;
+    color: $dark2Color;
+  }
+  label {
+    position: relative;
+    cursor: pointer;
+  }
+  label:before {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 4px;
+    right: -50px;
+    width: 40px;
+    height: 20px;
+    background-color: #ccc;
+    border-radius: 20px;
+    transition: all 0.3s;
+  }
+  label:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 2.5px;
+    right: -30px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid $borderColor;
+    background: #fff;
+    border-radius: 20px;
+    transition: all 0.3s;
+  }
+  label.active:before {
+    background-color: $primaryColor;
+  }
+  label.active:after {
+    right: -50px;
+  }
+  
+  label input {
+    display: none;
+  }
+}

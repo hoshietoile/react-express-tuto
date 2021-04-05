@@ -1,16 +1,14 @@
-import React, { createContext, useState, useCallback, useReducer, useEffect } from 'react'
+import React, { createContext, useState, useReducer, useEffect } from 'react'
 import './Migration.scss'
-// modules
-import formatClass from './../../../assets/js/modules/formatClass'
-// icons
-import KeyIcon from './../../../assets/images/key.svg'
-import EditIcon from './../../../assets/images/checksheet.svg'
-import DeleteIcon from './../../../assets/images/dustbox.svg'
 // atoms
-import Icon from './../../atoms/Icon/Icon'
-import BaseOverlay from './../../atoms/BaseOverlay/BaseOverlay'
+import BaseCard from './../../atoms/BaseCard/BaseCard'
+// molecules
+import BlockBtn from './../../molecules/BlockBtn/BlockBtn'
+import InputBox from './../../molecules/InputBox/InputBox'
 // organisms
 import MigrationModal from './../../organisms/MigrationModal/MigrationModal'
+import MigrationTable from './../../organisms/MigrationTable/MigrationTable'
+import MigrationTab from './../../organisms/MigrationTab/MigrationTab'
 // dependencies
 import AceEditor from "react-ace"
 import 'ace-builds/src-noconflict/theme-xcode'
@@ -18,11 +16,6 @@ import 'ace-builds/src-noconflict/mode-sql'
 // consts
 import { consts } from './../../../config/consts'
 
-type headerType = {
-  order: number
-  value: string
-  text: string
-}
 export type selectOptionType = {
   key: number
   value: number
@@ -35,81 +28,6 @@ export type editorProps = {
   onChange?: (content: string) => void
   theme?: string
 }
-
-const headerOptions: headerType[] = [
-  {
-    order: 0,
-    value: 'primary_key',
-    text: ''
-  },
-  {
-    order: 1,
-    value: 'column_name',
-    text: 'ColumnName'
-  },
-  {
-    order: 2,
-    value: 'concrete_name',
-    text: 'ConcreteName'
-  },
-  {
-    order: 3,
-    value: 'data_type',
-    text: 'DataType'
-  },
-  {
-    order: 4,
-    value: 'constraints',
-    text: 'Constraints'
-  },
-  {
-    order: 5,
-    value: 'edit_action',
-    text: ''
-  },
-  {
-    order: 6,
-    value: 'delete_action',
-    text: ''
-  },
-]
-
-const itemOptions: itemType[] = [
-  {
-    id: 1,
-    value: 'id',
-    primary_key: false,
-    column_name: 'id',
-    concrete_name: 'ID',
-    data_type: '1',
-    num1: '',
-    num2: '',
-    constraints: [1, 2]
-  },
-  {
-    id: 2,
-    value: 'user_name',
-    primary_key: false,
-    column_name: 'user_name',
-    concrete_name: 'ユーザー名',
-    data_type: '2',
-    num1: '',
-    num2: '',
-    constraints: [1]
-  },
-  {
-    id: 3,
-    value: 'email',
-    primary_key: false,
-    column_name: 'email',
-    concrete_name: 'Email',
-    data_type: '2',
-    num1: '',
-    num2: '',
-    constraints: []
-  },
-]
-
 export type itemType = {
   id: number | null
   value: string
@@ -204,16 +122,6 @@ type columnFormContextType = {
 }
 export const ColumnFormContext = createContext({} as columnFormContextType)
 
-// type columnFormProviderProps = {
-//   children: React.ReactNode
-// }
-// const ColumnFormProvider: React.FC<columnFormProviderProps> = ({ children }) => {
-//   const [columnFormState, columnFormDispatch]: [itemType, React.Dispatch<ColumnAction>]= useReducer(reducer, defaultItem)
-//   return <ColumnFormContext.Provider value={{ columnFormState, columnFormDispatch }}>
-//     { children }
-//   </ColumnFormContext.Provider>
-// }
-
 type targetColumnType = {
   index: null | number
 }
@@ -222,19 +130,19 @@ const targetColumnState: targetColumnType = {
   index: null
 }
 
-// const initColumnItems: itemType[] = []
+const initColumnItems: itemType[] = []
 const dataTypeOptions: selectOptionType[] = consts.DATA_TYPES
 const constraintsOptions: selectOptionType[] = consts.CONSTRAINTS
 
 const Migration: React.FC = () => {
-  const [tabIndex, setTabIndex] = useState(1)
+  const [tabIndex, setTabIndex] = useState(0)
   const [isModalShow, setIsModalShow] = useState(false)
-  const [tableName, setTableName] = useState('')
-  const [targetColumn, setTargetColumn] = useState(targetColumnState)
   const [isSetPrimaryKey, setIsSetPrimaryKey] = useState(false)
-  const [columnItems, setColumnItems] = useState(itemOptions)
-  const [columnFormState, columnFormDispatch] = useReducer(reducer, defaultItem)
+  const [tableName, setTableName] = useState('')
   const [editorContent, setEditorContent] = useState('')
+  const [targetColumn, setTargetColumn] = useState(targetColumnState)
+  const [columnItems, setColumnItems] = useState(initColumnItems)
+  const [columnFormState, columnFormDispatch] = useReducer(reducer, defaultItem)
   
   /**
    * プライマリキーの変更を監視
@@ -259,14 +167,6 @@ const Migration: React.FC = () => {
     initForm()
     setIsModalShow(true)
   }
-  /**
-   * タブヘッダクラス
-   */
-  const tabHeaderClass = useCallback((index: number) => {
-    return formatClass("tab__header--label", '', () => {
-      return index === tabIndex ? 'active' : ''
-    })
-  }, [tabIndex])
   /**
    * 編集ボタンクリック時ハンドラ
    */
@@ -308,8 +208,8 @@ const Migration: React.FC = () => {
     const skelton = { ...defaultItem }
     const values = {
       ...columnFormState,
-      num1: [5, 7, 8, 13].indexOf(parseInt(columnFormState.data_type)) === -1 ? null : columnFormState.num1,
-      num2: [7, 8].indexOf(parseInt(columnFormState.data_type)) === -1 ? null : columnFormState.num2,
+      num1: [5, 7, 8, 13].indexOf(parseInt(columnFormState.data_type)) === -1 ? '' : columnFormState.num1,
+      num2: [7, 8].indexOf(parseInt(columnFormState.data_type)) === -1 ? '' : columnFormState.num2,
     }
     const newColumn = Object.assign(skelton, values)
     let newItems = []
@@ -369,86 +269,6 @@ const Migration: React.FC = () => {
     })
   }
   
-  /**
-   * テーブル行制約
-   */
-  const renderConstraints = (constraints: number[]) => {
-    const render = constraintsOptions.filter((opt) => constraints.indexOf(opt.value) !== -1).map((opt) => opt.text)
-    return render.join(', ')
-  }
-  /**
-   * テーブル行データ型
-   */
-  const renderDataType = (dataType: string) => {
-    const target = dataTypeOptions.find((op) => op.value === parseInt(dataType))
-    return target ? target.text : ''
-  }
-  /**
-   * テーブルレンダリング処理
-   */
-  const renderTable = () => {
-    const headers = headerOptions.slice()
-    const items = columnItems.slice()
-    const headerLabels = headers
-      .sort((a: headerType, b: headerType) => a.order - b.order)
-      .map((header: headerType) => header.text)
-    
-    // TODO: TypeScriptで動的にキーを指定できるようにしたい
-    // マッチングするvalueのみ取り出す
-    // const headerLabelValues = headerLabels.map(header => header.text)
-    // const filteredItems = items.map((item: itemType) => {
-    //   headerLabelValues.reduce((accum: [], current: string) => {
-    //     const key = keys[current]
-    //     return [...accum, item[current]]
-    //   }, [])
-    //   return []
-    // })
-
-    // テーブル行マッピング
-    const filteredItems = items.map((item: itemType, index) => (
-      <>
-        <td className="table__row--column">
-          { item.primary_key ? <Icon src={ KeyIcon } size="sm" /> : null }
-        </td>
-        <td className="table__row--column">{ item['column_name'] }</td>
-        <td className="table__row--column">{ item['concrete_name'] }</td>
-        <td className="table__row--column">{ renderDataType(item['data_type']) }</td>
-        <td className="table__row--column">{ renderConstraints(item['constraints']) }</td>
-        <td className="table__row--column clickable"
-          onClick={ () => handleEditClick(item, index) }
-        >
-          <Icon src={ EditIcon } size="sm" />
-        </td>
-        <td className="table__row--column clickable"
-          onClick={ () => handleDeleteClick(item, index) }
-        >
-          <Icon src={ DeleteIcon } size="sm" />
-        </td>
-      </>
-    ))
-    // テーブルレンダリング
-    return (
-      <div className="table__wrapper">
-        <table className="table">
-          <thead className="table__header">
-            <tr>
-              { headerLabels.map((header, index) => (
-                  <th key={ index } className="table__header--column">{ header }</th>
-                ))
-              }
-            </tr>
-          </thead>
-          <tbody className="table__body">
-            { filteredItems.map((item, index) => (
-                <tr key={ index } className="table__row">{ item }</tr>
-              ))
-            }
-          </tbody>
-        </table>
-      </div>
-    )
-  }
-  
   const handleTableCancelClick = () => {
     console.log(columnItems)
   }
@@ -463,107 +283,81 @@ const Migration: React.FC = () => {
   const editorHandler = (content: string) => {
     setEditorContent(content)
   }
+  
+  const handleTableNameInput = (event: React.ChangeEvent<HTMLInputElement>) => setTableName(event.target.value)
+
   return (
     <ColumnFormContext.Provider value={{ columnFormState, columnFormDispatch }}>
       <div className="migration">
-        <div className="card">
-          <div className="tab">
-            <div className="tab__header">
-              <div
-                className={ (() => tabHeaderClass(1))() }
-                onClick={ () => handleTabClick(1) }
-              >
-                ColumnDefinitions
+        <BaseCard>
+          {/* タブ */}
+          <MigrationTab
+            tabTexts={ ['ColumnDefinitions', 'CommitMigration'] }
+            activeTab={ tabIndex }
+            handleTabClick={ handleTabClick }
+          >
+            {/* タブ1 */}
+            <div key="ColumnDefinitions" className="column-definitions">
+              <div className="column-definitions__header">
+                <div className="column-definitions__header-title">
+                  <InputBox
+                    label="TableName"
+                    value={ tableName }
+                    handleInput={ handleTableNameInput }
+                  />
+                </div>
+                <button
+                  className="column-definitions__adder"
+                  onClick={ handleAdderClick }
+                >
+                  <span>✚</span>
+                </button>
               </div>
-              <div
-                className={ (() => tabHeaderClass(2))() }
-                onClick={ () => handleTabClick(2) }
-              >
-                CommitMigration
+              <div className="column-definitions__body">
+                <MigrationTable
+                  items={ columnItems }
+                  handleEditClick={ handleEditClick }
+                  handleDeleteClick={ handleDeleteClick }
+                />
               </div>
             </div>
-            {/* タブ */}
-            <div className="tab__body">
-              { tabIndex === 1 ?
-                <div className="tab__content column">
-                  <div className="column-definitions">
-                    <div className="column-definitions__header">
-                      <div className="column-definitions__header-title">
-                        <div className="input">
-                          <label>
-                            <span>TableName</span>
-                            <input
-                              value={ tableName }
-                              onChange={ 
-                                (
-                                  event: React.ChangeEvent<HTMLInputElement>
-                                ) => setTableName(event.target.value)
-                              } 
-                            />
-                          </label>
-                        </div>
-                      </div>
-                      <button
-                        className="column-definitions__adder"
-                        onClick={ handleAdderClick }
-                      >
-                        <span>✚</span>
-                      </button>
-                    </div>
-                    <div className="column-definitions__body">
-                      { (() => renderTable())() }
-                    </div>
-                  </div>
-                </div>
-                : null
-              }
-              { tabIndex === 2 ?
-                <div className="tab__content">
-                  <div className="commit-migration">
-                    {/* https://petitviolet.hatenablog.com/entry/20191230/1577712145 */}
-                    <AceEditor
-                      mode="sql"
-                      theme="xcode"
-                      width="700"
-                      value={ editorContent }
-                      enableBasicAutocompletion={true}
-                      onChange={ editorHandler }
-                    />
-                    {/* ボタングループ */}
-                    <div className="commit-migration__footer">
-                      <button
-                        className="btn btn--block secondary"
-                        onClick={ handleTableCancelClick }
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="btn btn--block primary"
-                        onClick={ handleTableSaveClick }
-                      >
-                        Save
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                : null
-              }
+            {/* タブ2 */}
+            <div key="CommitMigration" className="commit-migration">
+              {/* https://petitviolet.hatenablog.com/entry/20191230/1577712145 */}
+              <AceEditor
+                mode="sql"
+                theme="xcode"
+                width="700"
+                value={ editorContent }
+                enableBasicAutocompletion={true}
+                onChange={ editorHandler }
+              />
+              {/* ボタングループ */}
+              <div className="commit-migration__footer">
+                <BlockBtn
+                  type="secondary"
+                  handleClick={ handleTableCancelClick }
+                >Cancel
+                </BlockBtn>
+                <BlockBtn handleClick={ handleTableSaveClick }>
+                  Save
+                </BlockBtn>
+              </div>
             </div>
-          </div>
-        </div>
+          </MigrationTab>
+          {/* </div> */}
+        </BaseCard>
         {/* モーダル */}
         { isModalShow ?
-          <BaseOverlay isShown={ isModalShow }>
-            <MigrationModal
-              isShown={ isModalShow }
-              initForm={ initForm }
-              initModalShow={ initModalShow }
-              handlePrimaryKeySwitch={ handlePrimaryKeySwitch }
-              handleModalSave={ handleModalSave }
-              dataTypeOptions={ dataTypeOptions }
-              constraintsOptions={ constraintsOptions }
-            />
-          </BaseOverlay>
+          <MigrationModal
+            isShown={ isModalShow }
+            initForm={ initForm }
+            initModalShow={ initModalShow }
+            handlePrimaryKeySwitch={ handlePrimaryKeySwitch }
+            handleModalSave={ handleModalSave }
+            dataTypeOptions={ dataTypeOptions }
+            constraintsOptions={ constraintsOptions }
+          />
           : null
         }
       </div>
