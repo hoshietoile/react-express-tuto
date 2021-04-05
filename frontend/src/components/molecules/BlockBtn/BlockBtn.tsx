@@ -22,7 +22,7 @@ const BlockBtn: React.FC<blockBtnProps> = ({
     return formatClass(
       'btn--block',
       appendClass ? appendClass : '',
-      () => ['primary', 'secondary'].indexOf(type) !== -1 ? type : ''
+      () => ['primary', 'secondary', 'transparent'].indexOf(type) !== -1 ? type : ''
     )
   }, [appendClass, type])
   return (

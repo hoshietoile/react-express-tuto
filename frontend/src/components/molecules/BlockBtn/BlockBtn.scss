@@ -5,9 +5,24 @@
   font-weight: $textWeightMedium;
 }
 .btn.secondary {
-
+  background-color: $lightColor;
+  border: 1px solid $borderColor;
+  color: black;
+  &:hover {
+    background-color: darken($lightColor, 4%);
+  }
 }
 .btn.primary {
   background-color: $primaryColor;
   color: white;
+  &:hover {
+    background-color: darken($primaryColor, 4%);
+  }
+}
+.btn.transparent {
+  background-color: transparent;
+  color: black;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 }
