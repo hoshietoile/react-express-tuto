@@ -3,7 +3,6 @@ import './Sql.scss'
 
 // atoms
 import BaseCard from './../../atoms/BaseCard/BaseCard'
-import BaseBtn from './../../atoms/BaseBtn/BaseBtn'
 // molecules
 import BlockBtn from './../../molecules/BlockBtn/BlockBtn'
 // dependencies
